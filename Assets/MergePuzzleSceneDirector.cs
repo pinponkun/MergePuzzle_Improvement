@@ -48,6 +48,11 @@ public class MergePuzzleSceneDirector : MonoBehaviour
 
         // x座標をマウスに合わせる
         Vector2 bubblePosition = new Vector2(worldPoint.x, SpawnItemY);
+
+        // x座標の可動域
+        float minX = -2.5f;
+        float maxX = 2.5f;
+        bubblePosition.x = Mathf.Clamp(bubblePosition.x, minX, maxX);
         currentBubble.transform.position = bubblePosition;
 
         // タッチ処理
