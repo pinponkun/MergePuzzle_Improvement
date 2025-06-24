@@ -19,8 +19,12 @@ public class MergePuzzleSceneDirector : MonoBehaviour
     int score;
     // 現在のアイテム
     BubbleController currentBubble;
+    // 次のアイテム
+    BubbleController nextBubble;
     // 生成位置
     const float SpawnItemY = 3.5f;
+    // Nextバブル表示位置
+    Vector2 nextBubblePosition = new Vector2(6, 3);
     // Audio再生装置
     AudioSource audioSource;
 
@@ -32,6 +36,11 @@ public class MergePuzzleSceneDirector : MonoBehaviour
 
         // リザルト画面非表示
         panelResult.SetActive(false);
+
+        // 最初のNextバブルを生成
+        nextBubble = SpawnItem(nextBubblePosition);
+        nextBubble.GetComponent<Rigidbody2D>().gravityScale = 0;
+        nextBubble.GetComponent<Collider2D>().enabled = false; // 衝突判定オフ
 
         // 最初のアイテムを生成
         StartCoroutine(SpawnCurrentItem());
@@ -96,10 +105,17 @@ public class MergePuzzleSceneDirector : MonoBehaviour
     {
         // 指定された秒数を待つ
         yield return new WaitForSeconds(1.0f);
-        // 生成されたアイテムを保持する
-        currentBubble = SpawnItem(new Vector2(0, SpawnItemY));
-        // 落ちないように重力を０にする
+
+        // NextバブルをCurrentに移動
+        currentBubble = nextBubble;
+        currentBubble.transform.position = new Vector2(0, SpawnItemY);
         currentBubble.GetComponent<Rigidbody2D>().gravityScale = 0;
+        currentBubble.GetComponent<Collider2D>().enabled = true; // 衝突判定オン
+
+        // 新しいNextバブルを生成して右上に表示
+        nextBubble = SpawnItem(nextBubblePosition);
+        nextBubble.GetComponent<Rigidbody2D>().gravityScale = 0;
+        nextBubble.GetComponent<Collider2D>().enabled = false; // 衝突判定オフ
     }
 
     // アイテムを合体させる
