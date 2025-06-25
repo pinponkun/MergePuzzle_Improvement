@@ -58,10 +58,23 @@ public class MergePuzzleSceneDirector : MonoBehaviour
         // x座標をマウスに合わせる
         Vector2 bubblePosition = new Vector2(worldPoint.x, SpawnItemY);
 
-        // x座標の可動域
-        float minX = -2.5f;
-        float maxX = 2.5f;
+        // バブルの半径を取得
+        float bubbleRadius = 0.5f; // デフォルト値
+        var collider = currentBubble.GetComponent<CircleCollider2D>();
+        if (collider != null)
+        {
+            bubbleRadius = collider.radius * currentBubble.transform.localScale.x;
+        }
+
+        // 壁の位置
+        float wallLeft = -2.85f;
+        float wallRight = 2.85f;
+
+        // 可動域をバブルの半径分だけ内側に
+        float minX = wallLeft + bubbleRadius;
+        float maxX = wallRight - bubbleRadius;
         bubblePosition.x = Mathf.Clamp(bubblePosition.x, minX, maxX);
+
         currentBubble.transform.position = bubblePosition;
 
         // タッチ処理
