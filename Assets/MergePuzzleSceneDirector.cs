@@ -12,8 +12,8 @@ public class MergePuzzleSceneDirector : MonoBehaviour
     [SerializeField] TextMeshProUGUI textScore;
     [SerializeField] GameObject panelResult;
     // Audio
-    [SerializeField] AudioClip seDrop;
-    [SerializeField] AudioClip seMerge;
+    [SerializeField] AudioSource seDrop;
+    [SerializeField] AudioSource seMerge;
 
     // スコア
     int score;
@@ -25,15 +25,10 @@ public class MergePuzzleSceneDirector : MonoBehaviour
     const float SpawnItemY = 3.5f;
     // Nextバブル表示位置
     Vector2 nextBubblePosition = new Vector2(6, 3);
-    // Audio再生装置
-    AudioSource audioSource;
 
     // Start is called before the first frame update
     void Start()
     {
-        // サウンド再生用
-        audioSource = GetComponent<AudioSource>();
-
         // リザルト画面非表示
         panelResult.SetActive(false);
 
@@ -87,7 +82,7 @@ public class MergePuzzleSceneDirector : MonoBehaviour
             // 次のアイテム
             StartCoroutine(SpawnCurrentItem());
             // SE再生
-            audioSource.PlayOneShot(seDrop);
+            seDrop.Play();
         }
     }
 
@@ -174,7 +169,7 @@ public class MergePuzzleSceneDirector : MonoBehaviour
         textScore.text = "" + score;
 
         // SE再生
-        audioSource.PlayOneShot(seMerge);
+        seMerge.Play();
     }
 
     // リトライボタン
