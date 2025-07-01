@@ -72,17 +72,21 @@ public class MergePuzzleSceneDirector : MonoBehaviour
 
         currentBubble.transform.position = bubblePosition;
 
-        // タッチ処理
+        // タッチ処理（可動域内のみ反応）
         if (Input.GetMouseButtonUp(0))
         {
-            // 重力をセットしてドロップ
-            currentBubble.GetComponent<Rigidbody2D>().gravityScale = 1;
-            // 所持アイテムリセット
-            currentBubble = null;
-            // 次のアイテム
-            StartCoroutine(SpawnCurrentItem());
-            // SE再生
-            seDrop.Play();
+            // 可動域内か判定
+            if (worldPoint.x >= minX && worldPoint.x <= maxX)
+            {
+                // 重力をセットしてドロップ
+                currentBubble.GetComponent<Rigidbody2D>().gravityScale = 1;
+                // 所持アイテムリセット
+                currentBubble = null;
+                // 次のアイテム
+                StartCoroutine(SpawnCurrentItem());
+                // SE再生
+                seDrop.Play();
+            }
         }
     }
 
