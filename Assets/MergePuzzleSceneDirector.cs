@@ -54,7 +54,7 @@ public class MergePuzzleSceneDirector : MonoBehaviour
         Vector2 bubblePosition = new Vector2(worldPoint.x, SpawnItemY);
 
         // バブルの半径を取得
-        float bubbleRadius = 0.5f; // デフォルト値
+        float bubbleRadius = 1.0f; // デフォルト値
         var collider = currentBubble.GetComponent<CircleCollider2D>();
         if (collider != null)
         {
@@ -62,12 +62,12 @@ public class MergePuzzleSceneDirector : MonoBehaviour
         }
 
         // 壁の位置
-        float wallLeft = -2.85f;
-        float wallRight = 2.85f;
+        float wallLeft = -3f;
+        float wallRight =  3f;
 
         // 可動域をバブルの半径分だけ内側に
-        float minX = wallLeft + bubbleRadius;
-        float maxX = wallRight - bubbleRadius;
+        float minX = wallLeft + 0.11f + bubbleRadius;
+        float maxX = wallRight - 0.11f - bubbleRadius;
         bubblePosition.x = Mathf.Clamp(bubblePosition.x, minX, maxX);
 
         currentBubble.transform.position = bubblePosition;
@@ -76,7 +76,7 @@ public class MergePuzzleSceneDirector : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             // 可動域内か判定
-            if (worldPoint.x >= minX && worldPoint.x <= maxX)
+            if (worldPoint.x >= wallLeft && worldPoint.x <= wallRight)
             {
                 // 重力をセットしてドロップ
                 currentBubble.GetComponent<Rigidbody2D>().gravityScale = 1;
