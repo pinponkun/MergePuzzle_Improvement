@@ -11,6 +11,13 @@ public class BubbleController : MonoBehaviour
     // マージ済フラグ
     public bool IsMerged;
 
+    // ラインを越えた時間を記録
+    private float overLineTime = 0f;
+    // ゲームオーバーラインのY座標
+    public float GameOverLineY = 6f;
+    // ラインを越えてからゲームオーバーまでの秒数
+    public float OverLineDuration = 3f;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -20,11 +27,33 @@ public class BubbleController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 画面外に落ちたら消す
+        // 画面外に落ちたらゲームオーバー
         if (transform.position.y < -10)
         {
+            if (SceneDirector != null)
+            {
+                SceneDirector.GameOver();
+            }
             Destroy(gameObject);
+            return;
         }
+
+        // // 一定ラインを越えているか判定
+        // if (transform.position.y > GameOverLineY)
+        // {
+        //     overLineTime += Time.deltaTime;
+        //     if (overLineTime >= OverLineDuration)
+        //     {
+        //         if (SceneDirector != null)
+        //         {
+        //             SceneDirector.GameOver();
+        //         }
+        //     }
+        // }
+        // else
+        // {
+        //     overLineTime = 0f;
+        // }
     }
 
     // 当たり判定が発生したら呼ばれる

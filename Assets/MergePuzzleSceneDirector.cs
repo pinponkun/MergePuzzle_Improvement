@@ -26,6 +26,9 @@ public class MergePuzzleSceneDirector : MonoBehaviour
     // Nextバブル表示位置
     Vector2 nextBubblePosition = new Vector2(6, 3);
 
+    // ゲームオーバーフラグ
+    private bool isGameOver = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -63,7 +66,7 @@ public class MergePuzzleSceneDirector : MonoBehaviour
 
         // 壁の位置
         float wallLeft = -3f;
-        float wallRight =  3f;
+        float wallRight =  6f;
 
         // 可動域をバブルの半径分だけ内側に
         float minX = wallLeft + 0.11f + bubbleRadius;
@@ -180,5 +183,18 @@ public class MergePuzzleSceneDirector : MonoBehaviour
     public void OnClickRetry()
     {
         SceneManager.LoadScene("MergePuzzleScene");
+    }
+
+    // ゲームオーバー処理
+    public void GameOver()
+    {
+        // 既にゲームオーバーなら何もしない
+        if (isGameOver) return;
+        isGameOver = true;
+
+        // このUpdateに入らないようにする
+        enabled = false;
+        // リザルトパネル表示
+        panelResult.SetActive(true);
     }
 }
