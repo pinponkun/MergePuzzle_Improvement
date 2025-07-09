@@ -66,7 +66,7 @@ public class MergePuzzleSceneDirector : MonoBehaviour
 
         // 壁の位置
         float wallLeft = -3f;
-        float wallRight =  6f;
+        float wallRight =  3f;
 
         // 可動域をバブルの半径分だけ内側に
         float minX = wallLeft + 0.11f + bubbleRadius;
@@ -139,10 +139,7 @@ public class MergePuzzleSceneDirector : MonoBehaviour
         // 操作中のアイテムとぶつかったらゲームオーバー
         if (currentBubble == bubbleA || currentBubble == bubbleB)
         {
-            // このUpdateに入らないようにする
-            enabled = false;
-            // リザルトパネル表示
-            panelResult.SetActive(true);
+            GameOver();
 
             return;
         }
